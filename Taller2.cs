@@ -1,21 +1,20 @@
-//Primer Punto
+//Punto 1
 using System;
-using System.Collections.Generic;
 
-public interface IHabilidad
+public interface IPokemon
 {
     int Atacar();
-    float Defensa();
+    double Defensa();
 }
 
-public abstract class Pokemon : IHabilidad
+public abstract class PokemonBase : IPokemon
 {
     private string nombre;
     private string tipo;
     protected int[] ataques = new int[3];
     protected int defensa;
 
-    public Pokemon(string nombre, string tipo, int[] ataques, int defensa)
+    public PokemonBase(string nombre, string tipo, int[] ataques, int defensa)
     {
         this.nombre = nombre;
         this.tipo = tipo;
@@ -25,291 +24,236 @@ public abstract class Pokemon : IHabilidad
 
     public abstract int Atacar();
 
-    public abstract float Defensa();
+    public abstract double Defensa();
 
-    public void MostrarDatos()
+    public string Nombre
     {
-        Console.WriteLine("Nombre: " + nombre);
-        Console.WriteLine("Tipo: " + tipo);
-        Console.WriteLine("Ataques: ");
-        foreach (int ataque in ataques)
-        {
-            Console.WriteLine("- " + ataque);
-        }
-        Console.WriteLine("Defensa: " + defensa);
-        Console.WriteLine();
+        get { return nombre; }
+    }
+
+    public string Tipo
+    {
+        get { return tipo; }
     }
 }
 
-public class Pokemon1 : Pokemon
+public class Pokemon1 : PokemonBase
 {
-    private Random random;
-
-    public Pokemon1(string nombre, string tipo, int[] ataques, int defensa) : base(nombre, tipo, ataques, defensa)
+    public Pokemon1(string nombre, string tipo, int[] ataques, int defensa)
+        : base(nombre, tipo, ataques, defensa)
     {
-        random = new Random();
     }
 
     public override int Atacar()
     {
-        int ataqueIndex = random.Next(0, 3);
-        int puntaje = ataques[ataqueIndex];
-        int multiplicador = random.Next(0, 2); // Puede ser 0 o 1
-
-        return puntaje * multiplicador;
+        Random random = new Random();
+        int indiceAtaque = random.Next(0, 3);
+        return ataques[indiceAtaque] * (random.Next(0, 2));
     }
 
-    public override float Defensa()
+    public override double Defensa()
     {
-        return defensa * 1.0f;
+        return defensa * 1.0;
     }
 }
 
-public class Pokemon2 : Pokemon
+public class Pokemon2 : PokemonBase
 {
-    private Random random;
-
-    public Pokemon2(string nombre, string tipo, int[] ataques, int defensa) : base(nombre, tipo, ataques, defensa)
+    public Pokemon2(string nombre, string tipo, int[] ataques, int defensa)
+        : base(nombre, tipo, ataques, defensa)
     {
-        random = new Random();
     }
 
     public override int Atacar()
     {
-        int ataqueIndex = random.Next(0, 3);
-        int puntaje = ataques[ataqueIndex];
-        int multiplicador = random.Next(0, 2); // Puede ser 0 o 1
-
-        return puntaje * multiplicador;
+        Random random = new Random();
+        int indiceAtaque = random.Next(0, 3);
+        return ataques[indiceAtaque] * (random.Next(0, 2));
     }
 
-    public override float Defensa()
+    public override double Defensa()
     {
-        return defensa * 0.5f;
+        return defensa * 0.5;
     }
 }
 
-public class Program
+class Program
 {
-    public static void Main(string[] args)
+    static void Main()
     {
-        Console.WriteLine("Ingrese los datos del Pokémon 1:");
+        int[] ataquesPokemon1 = { 30, 20, 40 };
+        int defensaPokemon1 = 20;
+        Pokemon1 pokemon1 = new Pokemon1("Pokemon1", "Tipo1", ataquesPokemon1, defensaPokemon1);
 
-        Console.Write("Nombre: ");
-        string nombre1 = Console.ReadLine();
+        int[] ataquesPokemon2 = { 25, 35, 10 };
+        int defensaPokemon2 = 30;
+        Pokemon2 pokemon2 = new Pokemon2("Pokemon2", "Tipo2", ataquesPokemon2, defensaPokemon2);
 
-        Console.Write("Tipo: ");
-        string tipo1 = Console.ReadLine();
+        int puntosPokemon1 = 0;
+        int puntosPokemon2 = 0;
 
-        int[] ataques1 = new int[3];
-        for (int i = 0; i < 3; i++)
+        for (int i = 1; i <= 3; i++)
         {
-            Console.Write("Ataque " + (i + 1) + ": ");
-            ataques1[i] = Convert.ToInt32(Console.ReadLine());
-        }
-
-        Console.Write("Defensa: ");
-        int defensa1 = Convert.ToInt32(Console.ReadLine());
-
-        Pokemon1 pokemon1 = new Pokemon1(nombre1, tipo1, ataques1, defensa1);
-
-        Console.WriteLine("Ingrese los datos del Pokémon 2:");
-
-        Console.Write("Nombre: ");
-        string nombre2 = Console.ReadLine();
-
-        Console.Write("Tipo: ");
-        string tipo2 = Console.ReadLine();
-
-        int[] ataques2 = new int[3];
-        for (int i = 0; i < 3; i++)
-        {
-            Console.Write("Ataque " + (i + 1) + ": ");
-            ataques2[i] = Convert.ToInt32(Console.ReadLine());
-        }
-
-        Console.Write("Defensa: ");
-        int defensa2 = Convert.ToInt32(Console.ReadLine());
-
-        Pokemon2 pokemon2 = new Pokemon2(nombre2, tipo2, ataques2, defensa2);
-
-        Console.WriteLine();
-
-        Console.WriteLine("Pokémon 1:");
-        pokemon1.MostrarDatos();
-
-        Console.WriteLine("Pokémon 2:");
-        pokemon2.MostrarDatos();
-
-        Console.WriteLine("¡Comienza la batalla!");
-        Console.WriteLine();
-
-        int resultado1 = 0;
-        int resultado2 = 0;
-
-        for (int i = 0; i < 3; i++)
-        {
-            Console.WriteLine("Turno " + (i + 1) + ":");
+            Console.WriteLine($"Turno {i}:");
 
             int ataque1 = pokemon1.Atacar();
-            float defensa2 = pokemon2.Defensa();
-
-            Console.WriteLine(pokemon1.GetType().Name + " ataca con " + ataque1 + " puntos");
-            Console.WriteLine(pokemon2.GetType().Name + " defiende con " + defensa2 + " puntos");
-
-            resultado1 += ataque1 - (int)defensa2;
+            double defensa1 = pokemon1.Defensa();
 
             int ataque2 = pokemon2.Atacar();
-            float defensa1 = pokemon1.Defensa();
+            double defensa2 = pokemon2.Defensa();
 
-            Console.WriteLine(pokemon2.GetType().Name + " ataca con " + ataque2 + " puntos");
-            Console.WriteLine(pokemon1.GetType().Name + " defiende con " + defensa1 + " puntos");
+            Console.WriteLine($"{pokemon1.Nombre} ataca con {ataque1} puntos y defiende con {defensa1} puntos.");
+            Console.WriteLine($"{pokemon2.Nombre} ataca con {ataque2} puntos y defiende con {defensa2} puntos.");
 
-            resultado2 += ataque2 - (int)defensa1;
+            if (ataque1 > ataque2 * defensa2)
+            {
+                puntosPokemon1++;
+                Console.WriteLine($"{pokemon1.Nombre} gana este turno.");
+            }
+            else if (ataque2 > ataque1 * defensa1)
+            {
+                puntosPokemon2++;
+                Console.WriteLine($"{pokemon2.Nombre} gana este turno.");
+            }
+            else
+            {
+                Console.WriteLine("Empate en este turno.");
+            }
 
             Console.WriteLine();
         }
 
-        Console.WriteLine("Resultado de la batalla:");
-
-        Console.WriteLine($"{pokemon1.GetType().Name}: {resultado1} puntos");
-        Console.WriteLine($"{pokemon2.GetType().Name}: {resultado2} puntos");
-
-        if (resultado1 > resultado2)
+        if (puntosPokemon1 > puntosPokemon2)
         {
-            Console.WriteLine($"{pokemon1.GetType().Name} gana la batalla!");
+            Console.WriteLine($"{pokemon1.Nombre} gana la batalla.");
         }
-        else if (resultado2 > resultado1)
+        else if (puntosPokemon2 > puntosPokemon1)
         {
-            Console.WriteLine($"{pokemon2.GetType().Name} gana la batalla!");
+            Console.WriteLine($"{pokemon2.Nombre} gana la batalla.");
         }
         else
         {
             Console.WriteLine("La batalla termina en empate.");
         }
-
-        Console.ReadLine();
     }
 }
 
-
+//*********************
 //Punto 2
-public interface IJugador
+
+public interface IDatosJugador
 {
-    string Nombre { get; set; }
-    string Posicion { get; set; }
-    int Rendimiento { get; set; }
+    string Nombre { get; }
+    string Posicion { get; }
+    int Rendimiento { get; }
 }
 
-public class Jugador : IJugador
+public class Jugador : IDatosJugador
 {
-    private string _nombre;
-    private string _posicion;
-    private int _rendimiento;
+    private string nombre;
+    private string posicion;
+    private int rendimiento;
 
     public Jugador(string nombre, string posicion, int rendimiento)
     {
-        _nombre = nombre;
-        _posicion = posicion;
-        _rendimiento = rendimiento;
+        this.nombre = nombre;
+        this.posicion = posicion;
+        this.rendimiento = rendimiento;
     }
 
     public string Nombre
     {
-        get => _nombre;
-        set => _nombre = value;
+        get { return nombre; }
     }
 
     public string Posicion
     {
-        get => _posicion;
-        set => _posicion = value;
+        get { return posicion; }
     }
 
     public int Rendimiento
     {
-        get => _rendimiento;
-        set => _rendimiento = value;
+        get { return rendimiento; }
     }
 }
 
-public class Equipo
+public class PartidoBaloncesto
 {
-    private List<Jugador> _jugadores;
+    private List<IDatosJugador> jugadoresRegistrados = new List<IDatosJugador>();
+    public List<IDatosJugador> equipo1 = new List<IDatosJugador>();
+    public List<IDatosJugador> equipo2 = new List<IDatosJugador>();
+    private Random random = new Random();
 
-    public Equipo()
+    public void AgregarJugador(IDatosJugador jugador)
     {
-        _jugadores = new List<Jugador>();
+        jugadoresRegistrados.Add(jugador);
     }
 
-    public void AgregarJugador(Jugador jugador)
+    public void SeleccionarEquipos()
     {
-        _jugadores.Add(jugador);
-    }
+        jugadoresRegistrados = jugadoresRegistrados.OrderBy(x => random.Next()).ToList();
 
-    public List<Jugador> Jugadores
-    {
-        get => _jugadores;
-    }
-
-    public int RendimientoTotal
-    {
-        get
+        for (int i = 0; i < jugadoresRegistrados.Count; i++)
         {
-            int rendimientoTotal = 0;
-            foreach (Jugador jugador in _jugadores)
+            if (i % 2 == 0)
             {
-                rendimientoTotal += jugador.Rendimiento;
+                equipo1.Add(jugadoresRegistrados[i]);
             }
-
-            return rendimientoTotal;
+            else
+            {
+                equipo2.Add(jugadoresRegistrados[i]);
+            }
         }
     }
-}
 
-public class MainClass
-{
-    public static void Main(string[] args)
+    public string DeterminarGanador()
     {
-        List<Jugador> jugadores = new List<Jugador>();
+        int puntajeEquipo1 = equipo1.Sum(jugador => jugador.Rendimiento);
+        int puntajeEquipo2 = equipo2.Sum(jugador => jugador.Rendimiento);
 
-        jugadores.Add(new Jugador("Juan", "Alvarez", 7));
-        jugadores.Add(new Jugador("Jose", "Velez", 9));
-        jugadores.Add(new Jugador("Maria", "Berrio", 8));
-        jugadores.Add(new Jugador("Luis", "Villa", 6));
-        jugadores.Add(new Jugador("Ana", "Lujan", 5));
-
-        Equipo equipo1 = new Equipo();
-        Equipo equipo2 = new Equipo();
-
-        for (int i = 0; i < 3; i++)
+        if (puntajeEquipo1 > puntajeEquipo2)
         {
-            equipo1.AgregarJugador(jugadores[i]);
-            equipo2.AgregarJugador(jugadores[i + 3]);
+            return "Equipo 1 gana";
         }
-
-        Console.WriteLine("Equipo 1:");
-        foreach (Jugador jugador in equipo1.Jugadores)
+        else if (puntajeEquipo2 > puntajeEquipo1)
         {
-            Console.WriteLine("* {0} ({1})", jugador.Nombre, jugador.Rendimiento);
-        }
-
-        Console.WriteLine("Equipo 2:");
-        foreach (Jugador jugador in equipo2.Jugadores)
-        {
-            Console.WriteLine("* {0} ({1})", jugador.Nombre, jugador.Rendimiento);
-        }
-
-        Equipo equipoGanador;
-        if (equipo1.RendimientoTotal > equipo2.RendimientoTotal)
-        {
-            equipoGanador = equipo1;
+            return "Equipo 2 gana";
         }
         else
         {
-            equipoGanador = equipo2;
+            return "Empate";
+        }
+    }
+}
+
+class Jugadores
+{
+    static void Main()
+    {
+        PartidoBaloncesto partido = new PartidoBaloncesto();
+
+        partido.AgregarJugador(new Jugador("Jose", "Alvares", 7));
+        partido.AgregarJugador(new Jugador("Cristian", "Hernandez", 8));
+        partido.AgregarJugador(new Jugador("Alex", "Pabon", 6));
+        partido.AgregarJugador(new Jugador("Julio", "Torres", 9));
+        partido.AgregarJugador(new Jugador("Sergio", "Casas", 5));
+        partido.AgregarJugador(new Jugador("Julian", "Suarez", 7));
+
+        partido.SeleccionarEquipos();
+
+        Console.WriteLine("Equipo 1:");
+        foreach (var jugador in partido.equipo1)
+        {
+            Console.WriteLine($"{jugador.Nombre} - Posición: {jugador.Posicion} - Rendimiento: {jugador.Rendimiento}");
         }
 
-        Console.WriteLine("El ganador del partido es el equipo {0} con un rendimiento total de {1}", equipoGanador.Nombre, equipoGanador.RendimientoTotal);
+        Console.WriteLine("\nEquipo 2:");
+        foreach (var jugador in partido.equipo2)
+        {
+            Console.WriteLine($"{jugador.Nombre} - Posición: {jugador.Posicion} - Rendimiento: {jugador.Rendimiento}");
+        }
+
+        string resultado = partido.DeterminarGanador();
+        Console.WriteLine($"\nResultado: {resultado}");
     }
 }

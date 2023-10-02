@@ -1,0 +1,4 @@
+C:\Users\carlo\OneDrive\Escritorio\Univesidad\ConsSoftware\Construccion4\obj\Debug\net7.0\Construccion4.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\carlo\OneDrive\Escritorio\Univesidad\ConsSoftware\Construccion4\obj\Debug\net7.0\Construccion4.AssemblyInfoInputs.cache
+C:\Users\carlo\OneDrive\Escritorio\Univesidad\ConsSoftware\Construccion4\obj\Debug\net7.0\Construccion4.AssemblyInfo.cs
+C:\Users\carlo\OneDrive\Escritorio\Univesidad\ConsSoftware\Construccion4\obj\Debug\net7.0\Construccion4.csproj.CoreCompileInputs.cache
